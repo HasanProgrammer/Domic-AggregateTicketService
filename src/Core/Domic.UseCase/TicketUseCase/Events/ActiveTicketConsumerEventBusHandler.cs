@@ -16,7 +16,7 @@ public class ActiveTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
     public async Task HandleAsync(TicketActived @event, CancellationToken cancellationToken)
     {
         var targetTicket = await ticketQueryRepository.FindByIdAsync(@event.Id, cancellationToken);
-
+        
         if (targetTicket is not null)
         {
             targetTicket.IsActive = IsActive.Active;
