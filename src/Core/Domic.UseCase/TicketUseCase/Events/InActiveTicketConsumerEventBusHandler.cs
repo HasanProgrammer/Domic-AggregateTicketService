@@ -7,19 +7,19 @@ using Domic.Domain.Ticket.Events;
 
 namespace Domic.UseCase.TicketUseCase.Events;
 
-public class ActiveTicketConsumerEventBusHandler(ITicketQueryRepository ticketQueryRepository) 
-    : IConsumerEventBusHandler<TicketActived>
+public class InActiveTicketConsumerEventBusHandler(ITicketQueryRepository ticketQueryRepository) 
+    : IConsumerEventBusHandler<TicketInActived>
 {
-    public void Handle(TicketActived @event){}
+    public void Handle(TicketInActived @event){}
 
     [TransactionConfig(Type = TransactionType.Query)]
-    public async Task HandleAsync(TicketActived @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(TicketInActived @event, CancellationToken cancellationToken)
     {
         var targetTicket = await ticketQueryRepository.FindByIdAsync(@event.Id, cancellationToken);
         
         if (targetTicket is not null)
         {
-            targetTicket.IsActive = IsActive.Active;
+            targetTicket.IsActive = IsActive.InActive;
             targetTicket.UpdatedBy = @event.UpdatedBy;
             targetTicket.UpdatedRole = @event.UpdatedRole;
             targetTicket.UpdatedAt_EnglishDate = @event.UpdatedAt_EnglishDate;

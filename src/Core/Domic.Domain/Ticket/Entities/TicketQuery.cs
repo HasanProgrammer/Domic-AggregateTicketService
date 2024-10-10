@@ -1,6 +1,7 @@
 #pragma warning disable CS0649
 
 using Domic.Core.Domain.Contracts.Abstracts;
+using Domic.Domain.Category.Entities;
 using Domic.Domain.Ticket.Enumerations;
 using Domic.Domain.User.Entities;
 
@@ -22,4 +23,5 @@ public class TicketQuery : EntityQuery<string>
     //Relations
     
     public UserQuery User { get; set; }
+    public CategoryQuery Category { get; set; }
 }

@@ -3,4 +3,19 @@ using Domic.Core.Domain.Contracts.Interfaces;
 
 namespace Domic.Domain.Ticket.Contracts.Interfaces;
 
-public interface ITicketQueryRepository : IQueryRepository<TicketQuery, string>;
+public interface ITicketQueryRepository : IQueryRepository<TicketQuery, string>
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="categoryId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public Task<List<TicketQuery>> FindByCategoryIdAsync(string categoryId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="entities"></param>
+    public void ChangeRange(List<TicketQuery> entities);
+}
