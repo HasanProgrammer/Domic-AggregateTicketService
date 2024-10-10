@@ -23,7 +23,6 @@ public class CreateTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
         {
             var newTicket = new TicketQuery {
                 Id = @event.Id,
-                UserId = @event.UserId,
                 CategoryId = @event.CategoryId,
                 Title = @event.Title,
                 Description = @event.Description,

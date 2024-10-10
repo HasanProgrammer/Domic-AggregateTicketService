@@ -11,7 +11,6 @@ public class TicketQuery : EntityQuery<string>
 {
     //Fields
     
-    public string UserId { get; set; }
     public string CategoryId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }

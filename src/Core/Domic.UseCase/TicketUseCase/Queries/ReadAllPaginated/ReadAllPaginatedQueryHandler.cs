@@ -20,6 +20,7 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                 UserImage = ticket.User.UserImage,
                 FirstName = ticket.User.FirstName,
                 LastName = ticket.User.LastName,
+                CategoryName = ticket.Category.Title
             },
             query.CountPerPage.Value,
             query.PageNumber.Value,
