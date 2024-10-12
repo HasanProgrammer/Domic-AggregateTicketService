@@ -1,93 +1,59 @@
-name: 'template_service'
+name: 'aggregate_ticket_service'
 
 services:
   
-  domic.template.api:
+  domic.aggregate.ticket.api:
     networks:
       - domic
-    image: template_service:1.0.0
+    image: aggregate_ticket_service_api_image:1.0.0
+    container_name: "aggregate_ticket_service_api"
     build:
       context: .
       dockerfile: Dockerfile
     restart: on-failure
     ports:
-      - 80:443
+      - "6100-6110:443"
     volumes:
       - log:/app/CoreLogs
       - ~\.aspnet\https\:/https/
     environment:
-      - Elastic-Host=http://localhost:9200
-      - Elastic-Username=
-      - Elastic-Password=
-      - E-RabbitMQ-Host=host.docker.internal
+      - Elastic-Host=http://domic.elastic.search:9200
+      - Elastic-Index=aggregateticket
+      - Elastic-Username=domic
+      - Elastic-Password=Domic123!@#
+      - E-RabbitMQ-Host=domic.rabbit.mq
       - E-RabbitMQ-Port=5672
-      - E-RabbitMQ-Username=guest
-      - E-RabbitMQ-Password=guest
+      - E-RabbitMQ-Username=domic
+      - E-RabbitMQ-Password=Domic123!@#
       - I-RabbitMQ-Host=
       - I-RabbitMQ-Port=
       - I-RabbitMQ-Username=
       - I-RabbitMQ-Password=
-      - E-RedisConnectionString=domic.template.redis:6379
-      - I-RedisConnectionString=domic.template.redis:6379
+      - E-RedisConnectionString=domic.redis:6379
+      - I-RedisConnectionString=
       - MongoConnectionString=
-      - C-SqlServerConnectionString=Server=domic.template.command.sql.server,1433;Database=TemplateService;User ID=sa;Password=Hasan313@@313!!;Persist Security Info=True;MultipleActiveResultSets=True;
-      - Q-SqlServerConnectionString=Server=domic.template.query.sql.server,1433;Database=TemplateService;User ID=sa;Password=Hasan313@@313!!;Persist Security Info=True;MultipleActiveResultSets=True;
-      - Host=domic.template.api
+      - C-SqlServerConnectionString=Server=
+      - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
+      - Host=domic.aggregate.ticket.api
       - Port=80
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Dotris313@313%%
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Karami.WebAPI.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Domic123!@#
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/Domic.WebAPI.pfx
     
     depends_on:
-      - domic.template.command.sql.server
-      - domic.template.query.sql.server
-      - domic.template.redis
-      - domic.template.rabbit
+      - domic.aggregate.ticket.query.sql.server
   
-  domic.template.command.sql.server:
+  domic.aggregate.ticket.query.sql.server:
     networks:
       - domic
     image: 'mcr.microsoft.com/mssql/server'
-    container_name: "template_command_sql_server"
-    ports:
-      - 1433:1433
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Hasan313@@313!!
-  
-  domic.template.query.sql.server:
-    networks:
-      - domic
-    image: 'mcr.microsoft.com/mssql/server'
-    container_name: "template_query_sql_server"
+    container_name: "aggregate_ticket_query_sql_server"
     ports:
       - 1400:1433
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Hasan313@@313!!
-
-  domic.template.rabbit:
-    networks:
-      - domic
-    image: 'rabbitmq:3-management'
-    container_name: 'template_rabbit'
-    restart: on-failure
-    ports:
-      - '15660:15672'
-      - '5660:5672'
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-
-  domic.template.redis:
-    networks:
-      - domic
-    image: 'redis'
-    container_name: 'template_redis'
-    command: 'redis-server'
-    ports:
-      - 6380:6379
+      - SA_PASSWORD=Domic123!@#
 
 volumes:
   log:

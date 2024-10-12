@@ -17,7 +17,7 @@
       "applicationUrl": "https://localhost:2001;http://localhost:2000",
       "environmentVariables": {
         "Elastic-Host": "http://localhost:9200",
-        "Elastic-Index": "template",
+        "Elastic-Index": "aggregateticket",
         "Elastic-Username": "",
         "Elastic-Password": "",
         "E-RabbitMQ-Host": "localhost",
@@ -32,10 +32,10 @@
         "E-Kafka-Username" : "",
         "E-Kafka-Password" : "",
         "E-RedisConnectionString": "127.0.0.1:6379",
-        "I-RedisConnectionString": "127.0.0.1:6379",
-        "MongoConnectionString": "mongodb://domic:434624@#@127.0.0.1:27017",
-        "C-SqlServerConnectionString": "Server=127.0.0.1,1633;Database=C-TemplateService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;",
-        "Q-SqlServerConnectionString": "Server=127.0.0.1,1633;Database=Q-TemplateService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;",
+        "I-RedisConnectionString": "",
+        "MongoConnectionString": "",
+        "C-SqlServerConnectionString": "",
+        "Q-SqlServerConnectionString": "Server=127.0.0.1,1633;Database=Q-AggregateArticleService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;",
         "Host": "localhost",
         "Port": "2001",
         "ASPNETCORE_ENVIRONMENT": "Development"
