@@ -19,6 +19,7 @@ public static class IConfigurationBuilderExtension
         
         configurationBuilder.AddJsonFile(jsonResult , optional: true, reloadOnChange: true)
                             .AddJsonFile(license    , optional: true, reloadOnChange: true)
+                            .AddJsonFile(config     , optional: true, reloadOnChange: true)
                             .AddJsonFile(service    , optional: true, reloadOnChange: true);
 
         return configurationBuilder;
