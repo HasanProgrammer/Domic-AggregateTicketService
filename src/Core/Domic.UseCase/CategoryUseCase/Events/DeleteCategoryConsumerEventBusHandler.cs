@@ -15,11 +15,11 @@ public class DeleteCategoryConsumerEventBusHandler(ITicketQueryRepository ticket
     [TransactionConfig(Type = TransactionType.Query)]
     public async Task HandleAsync(CategoryDeleted @event, CancellationToken cancellationToken)
     {
-        var targetTickets = await ticketQueryRepository.FindByCategoryIdAsync(@event.Id, cancellationToken);
+        var tickets = await ticketQueryRepository.FindByCategoryIdAsync(@event.Id, cancellationToken);
 
-        if (targetTickets is not null)
+        if (tickets.Any())
         {
-            foreach (var targetTicket in targetTickets)
+            foreach (var targetTicket in tickets)
             {
                 targetTicket.IsDeleted = IsDeleted.Delete;
                 targetTicket.UpdatedBy = @event.UpdatedBy;
@@ -28,7 +28,7 @@ public class DeleteCategoryConsumerEventBusHandler(ITicketQueryRepository ticket
                 targetTicket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
             }
             
-            ticketQueryRepository.ChangeRange(targetTickets);
+            ticketQueryRepository.ChangeRange(tickets);
         }
     }
 }

@@ -11,12 +11,16 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
 {
     public Task<TicketQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
         => context.Ticket.AsNoTracking().FirstOrDefaultAsync(t => t.Id == (string)id, cancellationToken);
+    
+    public Task<List<TicketQuery>> FindByCategoryIdAsync(string categoryId, CancellationToken cancellationToken
+    ) => context.Ticket.AsNoTracking().Where(ticket => ticket.CategoryId == categoryId).ToListAsync(cancellationToken);
 
-    public Task<List<TicketQuery>> FindByCategoryIdAsync(string categoryId, CancellationToken cancellationToken)
-        => context.Ticket.AsNoTracking().Where(ticket => ticket.CategoryId == categoryId).ToListAsync(cancellationToken);
-
-    public Task<List<TicketQuery>> FindByUserIdAsync(string userId, CancellationToken cancellationToken) 
-        => context.Ticket.AsNoTracking().Where(ticket => ticket.CreatedBy == userId).ToListAsync(cancellationToken);
+    public Task<List<TicketQuery>> FindByUserIdConditionallyAsync(string userId,
+        Expression<Func<TicketQuery, bool>> condition, CancellationToken cancellationToken
+    ) => context.Ticket.AsNoTracking()
+                       .Where(condition)
+                       .Where(ticket => ticket.CreatedBy == userId)
+                       .ToListAsync(cancellationToken);
 
     public async Task<IEnumerable<TViewModel>> FindAllWithPaginateAndOrderingByProjectionAsync<TViewModel>(
         Expression<Func<TicketQuery, TViewModel>> projection, int countPerPage, int pageNumber, Order order,

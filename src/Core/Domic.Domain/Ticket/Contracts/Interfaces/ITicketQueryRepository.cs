@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Domic.Domain.Ticket.Entities;
 using Domic.Core.Domain.Contracts.Interfaces;
 
@@ -17,9 +18,10 @@ public interface ITicketQueryRepository : IQueryRepository<TicketQuery, string>
     /// 
     /// </summary>
     /// <param name="userId"></param>
+    /// <param name="condition"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task<List<TicketQuery>> FindByUserIdAsync(string userId, CancellationToken cancellationToken);
+    public Task<List<TicketQuery>> FindByUserIdConditionallyAsync(string userId, Expression<Func<TicketQuery, bool>> condition, CancellationToken cancellationToken);
     
     /// <summary>
     /// 
