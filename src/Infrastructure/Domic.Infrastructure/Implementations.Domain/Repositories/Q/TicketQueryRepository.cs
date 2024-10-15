@@ -22,9 +22,9 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
                        .Where(ticket => ticket.CreatedBy == userId)
                        .ToListAsync(cancellationToken);
 
-    public async Task<IEnumerable<TViewModel>> FindAllWithPaginateAndOrderingByProjectionAsync<TViewModel>(
-        Expression<Func<TicketQuery, TViewModel>> projection, int countPerPage, int pageNumber, Order order,
-        bool accending, CancellationToken cancellationToken
+    public async Task<IEnumerable<TViewModel>> FindAllWithPaginateAndOrderingByProjectionConditionallyAsync<TViewModel>(
+        int countPerPage, int pageNumber, Order order, bool accending, CancellationToken cancellationToken,
+        Expression<Func<TicketQuery, TViewModel>> projection, params Expression<Func<TicketQuery, bool>>[] conditions
     )
     {
         var query = context.Ticket.AsNoTracking();
@@ -37,6 +37,9 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
             query = accending
                 ? query.OrderBy(ticket => ticket.CreatedAt_EnglishDate)
                 : query.OrderByDescending(ticket => ticket.CreatedAt_EnglishDate);
+
+        foreach (var condition in conditions)
+            query.Where(condition);
         
         var result = await query.Skip(countPerPage*(pageNumber - 1))
                                 .Take(countPerPage)

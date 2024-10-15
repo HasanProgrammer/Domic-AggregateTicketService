@@ -10,7 +10,13 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
 {
     public async Task<List<TicketDto>> HandleAsync(ReadAllPaginatedQuery query, CancellationToken cancellationToken)
     {
-        var tickets = await ticketQueryRepository.FindAllWithPaginateAndOrderingByProjectionAsync(ticket => new TicketDto {
+        var tickets = await ticketQueryRepository.FindAllWithPaginateAndOrderingByProjectionConditionallyAsync(
+            query.CountPerPage.Value,
+            query.PageNumber.Value,
+            Order.Id,
+            accending: false,
+            cancellationToken,
+            ticket => new TicketDto {
                 Id = ticket.Id,
                 Title = ticket.Title,
                 Description = ticket.Description,
@@ -22,11 +28,10 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                 LastName = ticket.User.LastName,
                 CategoryName = ticket.Category.Title
             },
-            query.CountPerPage.Value,
-            query.PageNumber.Value,
-            Order.Id,
-            accending: false,
-            cancellationToken
+            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedBy == query.UserId,
+            ticket => ticket.Title.Contains(query.SearchText)          ||
+                      ticket.Category.Title.Contains(query.SearchText) ||
+                      ( ticket.User.FirstName + " " + ticket.User.LastName ).Contains(query.SearchText)
         );
 
         return tickets.ToList();

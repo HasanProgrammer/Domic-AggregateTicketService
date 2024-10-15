@@ -12,7 +12,10 @@ public static class RpcRequestExtension
     /// <param name="request"></param>
     /// <returns></returns>
     public static ReadOneQuery ToQuery(this ReadOneRequest request)
-        => new() { Id = request.TicketId.Value };
+        => new() {
+            Id = request.TicketId.Value,
+            UserId = request.UserId.Value
+        };
     
     /// <summary>
     /// 
@@ -20,5 +23,10 @@ public static class RpcRequestExtension
     /// <param name="request"></param>
     /// <returns></returns>
     public static ReadAllPaginatedQuery ToQuery(this ReadAllPaginatedRequest request)
-        => new() { CountPerPage = request.CountPerPage.Value, PageNumber = request.PageNumber.Value };
+        => new() {
+            CountPerPage = request.CountPerPage.Value, 
+            PageNumber = request.PageNumber.Value,
+            UserId = request.UserId.Value,
+            SearchText = request.SearchText.Value
+        };
 }

@@ -6,4 +6,5 @@ namespace Domic.UseCase.TicketUseCase.Queries.ReadOne;
 public class ReadOneQuery : IQuery<TicketDto>
 {
     public required string Id { get; init; }
+    public required string UserId { get; init; }
 }
