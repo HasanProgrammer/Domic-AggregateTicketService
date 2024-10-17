@@ -14,7 +14,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:8006,http://localhost:8005",
+      "applicationUrl": "https://localhost:800;http://localhost:8005",
       "environmentVariables": {
         "Elastic-Host": "http://localhost:9200",
         "Elastic-Index": "aggregateticket",
