@@ -14,7 +14,7 @@ public static class RpcRequestExtension
     public static ReadOneQuery ToQuery(this ReadOneRequest request)
         => new() {
             Id = request.TicketId.Value,
-            UserId = request.UserId.Value
+            UserId = request.UserId != null ? request.UserId.Value : ""
         };
     
     /// <summary>
@@ -26,7 +26,7 @@ public static class RpcRequestExtension
         => new() {
             CountPerPage = request.CountPerPage.Value, 
             PageNumber = request.PageNumber.Value,
-            UserId = request.UserId.Value,
-            SearchText = request.SearchText.Value
+            UserId = request.UserId != null ? request.UserId.Value : "",
+            SearchText = request.SearchText != null ? request.SearchText.Value : ""
         };
 }
