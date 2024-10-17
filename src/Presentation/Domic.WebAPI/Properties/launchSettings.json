@@ -37,7 +37,7 @@
         "C-SqlServerConnectionString": "",
         "Q-SqlServerConnectionString": "Server=127.0.0.1,1633;Database=Q-AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;",
         "Host": "localhost",
-        "Port": "2001",
+        "Port": "8000",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
