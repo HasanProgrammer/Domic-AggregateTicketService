@@ -54,6 +54,20 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
         return result;
     }
 
+    public async ValueTask<long> CountRowsConditionallyAsync(CancellationToken cancellationToken,
+        params Expression<Func<TicketQuery, bool>>[] conditions
+    )
+    {
+        var query = context.Ticket.AsNoTracking();
+        
+        foreach (var condition in conditions)
+            query.Where(condition);
+
+        var result = await query.CountAsync(cancellationToken);
+
+        return result;
+    }
+
     public void Add(TicketQuery entity) => context.Ticket.Add(entity);
 
     public void Change(TicketQuery entity) => context.Ticket.Update(entity);

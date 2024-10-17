@@ -1,15 +1,30 @@
-﻿using Domic.Core.Domain.Enumerations;
+﻿using System.Linq.Expressions;
+using Domic.Core.Common.ClassExtensions;
+using Domic.Core.Common.ClassHelpers;
+using Domic.Core.Domain.Enumerations;
 using Domic.Core.UseCase.Contracts.Interfaces;
 using Domic.Domain.Ticket.Contracts.Interfaces;
+using Domic.Domain.Ticket.Entities;
 using Domic.UseCase.TicketUseCase.DTOs;
 
 namespace Domic.UseCase.TicketUseCase.Queries.ReadAllPaginated;
 
 public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepository) 
-    : IQueryHandler<ReadAllPaginatedQuery, List<TicketDto>>
+    : IQueryHandler<ReadAllPaginatedQuery, PaginatedCollection<TicketDto>>
 {
-    public async Task<List<TicketDto>> HandleAsync(ReadAllPaginatedQuery query, CancellationToken cancellationToken)
+    public async Task<PaginatedCollection<TicketDto>> HandleAsync(ReadAllPaginatedQuery query, CancellationToken cancellationToken)
     {
+        Expression<Func<TicketQuery, bool>> conditionOne =
+            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedBy == query.UserId;
+        
+        Expression<Func<TicketQuery, bool>> conditionTwo =
+            ticket => ticket.Title.Contains(query.SearchText)          ||
+                      ticket.Category.Title.Contains(query.SearchText) ||
+                      ( ticket.User.FirstName + " " + ticket.User.LastName ).Contains(query.SearchText);
+
+        var countWithConditions =
+            await ticketQueryRepository.CountRowsConditionallyAsync(cancellationToken, conditionOne, conditionTwo);
+        
         var tickets = await ticketQueryRepository.FindAllWithPaginateAndOrderingByProjectionConditionallyAsync(
             query.CountPerPage.Value,
             query.PageNumber.Value,
@@ -28,12 +43,10 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                 LastName = ticket.User.LastName,
                 CategoryName = ticket.Category.Title
             },
-            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedBy == query.UserId,
-            ticket => ticket.Title.Contains(query.SearchText)          ||
-                      ticket.Category.Title.Contains(query.SearchText) ||
-                      ( ticket.User.FirstName + " " + ticket.User.LastName ).Contains(query.SearchText)
+            conditionOne,
+            conditionTwo
         );
 
-        return tickets.ToList();
+        return tickets.ToPaginatedCollection(countWithConditions, query.CountPerPage.Value, query.PageNumber.Value);
     }
 }

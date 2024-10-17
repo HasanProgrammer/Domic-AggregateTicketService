@@ -22,6 +22,16 @@ public interface ITicketQueryRepository : IQueryRepository<TicketQuery, string>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public Task<List<TicketQuery>> FindByUserIdConditionallyAsync(string userId, Expression<Func<TicketQuery, bool>> condition, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <param name="conditions"></param>
+    /// <returns></returns>
+    public ValueTask<long> CountRowsConditionallyAsync(CancellationToken cancellationToken,
+        params Expression<Func<TicketQuery, bool>>[] conditions
+    );
     
     /// <summary>
     /// 

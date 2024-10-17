@@ -1,5 +1,6 @@
 using Domic.Core.Domain.Contracts.Interfaces;
 using Domic.Core.AggregateTicket.Grpc;
+using Domic.Core.Common.ClassHelpers;
 using Domic.UseCase.TicketUseCase.DTOs;
 
 namespace Domic.WebAPI.Frameworks.Extensions.Mappers.TicketMappers;
@@ -29,7 +30,7 @@ public static class RpcResponseExtension
     /// <param name="configuration"></param>
     /// <param name="serializer"></param>
     /// <returns></returns>
-    public static ReadAllPaginatedResponse ToResponse(this List<TicketDto> result, IConfiguration configuration, ISerializer serializer)
+    public static ReadAllPaginatedResponse ToResponse(this PaginatedCollection<TicketDto> result, IConfiguration configuration, ISerializer serializer)
         => new() {
             Code = configuration.GetValue<int>("StatusCode:SuccessFetchData"),
             Message = configuration.GetValue<string>("Message:FA:SuccessFetchData"),
