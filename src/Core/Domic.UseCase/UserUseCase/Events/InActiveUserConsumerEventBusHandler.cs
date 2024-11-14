@@ -34,4 +34,9 @@ public class InActiveUserConsumerEventBusHandler(ITicketQueryRepository ticketQu
             ticketQueryRepository.ChangeRange(tickets);
         }
     }
+
+    public void AfterTransactionHandle(UserInActived @event){}
+
+    public Task AfterTransactionHandleAsync(UserInActived @event, CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }

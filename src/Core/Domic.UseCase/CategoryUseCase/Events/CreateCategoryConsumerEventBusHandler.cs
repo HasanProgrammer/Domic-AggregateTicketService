@@ -31,4 +31,9 @@ public class CreateCategoryConsumerEventBusHandler(ITicketQueryRepository ticket
             ticketQueryRepository.ChangeRange(tickets);
         }
     }
+
+    public void AfterTransactionHandle(CategoryDeleted @event){}
+
+    public Task AfterTransactionHandleAsync(CategoryDeleted @event, CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }

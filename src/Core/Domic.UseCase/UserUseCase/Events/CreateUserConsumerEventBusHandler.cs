@@ -34,4 +34,9 @@ public class CreateUserConsumerEventBusHandler(ITicketQueryRepository ticketQuer
             ticketQueryRepository.ChangeRange(tickets);
         }
     }
+
+    public void AfterTransactionHandle(UserActived @event){}
+
+    public Task AfterTransactionHandleAsync(UserActived @event, CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }

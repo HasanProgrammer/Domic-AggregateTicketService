@@ -28,4 +28,9 @@ public class ActiveTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
             ticketQueryRepository.Change(targetTicket);
         }
     }
+
+    public void AfterTransactionHandle(TicketActived @event){}
+
+    public Task AfterTransactionHandleAsync(TicketActived @event, CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }

@@ -38,4 +38,9 @@ public class CreateTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
             ticketQueryRepository.Add(newTicket);
         }
     }
+
+    public void AfterTransactionHandle(TicketCreated @event){}
+
+    public Task AfterTransactionHandleAsync(TicketCreated @event, CancellationToken cancellationToken)
+        => Task.CompletedTask;
 }
