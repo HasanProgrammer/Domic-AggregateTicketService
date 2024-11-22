@@ -10,7 +10,7 @@ namespace Domic.UseCase.UserUseCase.Events;
 public class InActiveUserConsumerEventBusHandler(ITicketQueryRepository ticketQueryRepository) 
     : IConsumerEventBusHandler<UserInActived>
 {
-    public void Handle(UserInActived @event){}
+    public Task BeforeHandleAsync(UserInActived @event, CancellationToken cancellationToken) => Task.CompletedTask;
 
     [TransactionConfig(Type = TransactionType.Query)]
     public async Task HandleAsync(UserInActived @event, CancellationToken cancellationToken)
@@ -35,8 +35,6 @@ public class InActiveUserConsumerEventBusHandler(ITicketQueryRepository ticketQu
         }
     }
 
-    public void AfterTransactionHandle(UserInActived @event){}
-
-    public Task AfterTransactionHandleAsync(UserInActived @event, CancellationToken cancellationToken)
+    public Task AfterHandleAsync(UserInActived @event, CancellationToken cancellationToken)
         => Task.CompletedTask;
 }

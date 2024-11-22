@@ -10,7 +10,7 @@ namespace Domic.UseCase.UserUseCase.Events;
 public class DeleteCategoryConsumerEventBusHandler(ITicketQueryRepository ticketQueryRepository) 
     : IConsumerEventBusHandler<CategoryDeleted>
 {
-    public void Handle(CategoryDeleted @event){}
+    public Task BeforeHandleAsync(CategoryDeleted @event, CancellationToken cancellationToken) => Task.CompletedTask;
 
     [TransactionConfig(Type = TransactionType.Query)]
     public async Task HandleAsync(CategoryDeleted @event, CancellationToken cancellationToken)
@@ -32,8 +32,6 @@ public class DeleteCategoryConsumerEventBusHandler(ITicketQueryRepository ticket
         }
     }
 
-    public void AfterTransactionHandle(CategoryDeleted @event){}
-
-    public Task AfterTransactionHandleAsync(CategoryDeleted @event, CancellationToken cancellationToken)
+    public Task AfterHandleAsync(CategoryDeleted @event, CancellationToken cancellationToken)
         => Task.CompletedTask;
 }
