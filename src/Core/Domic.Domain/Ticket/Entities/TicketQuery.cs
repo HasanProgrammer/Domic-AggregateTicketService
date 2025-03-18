@@ -22,5 +22,8 @@ public class TicketQuery : EntityQuery<string>
     //Relations
     
     public UserQuery User { get; set; }
+    
     public CategoryQuery Category { get; set; }
+    
+    public ICollection<TicketCommentQuery> Comments { get; set; }
 }

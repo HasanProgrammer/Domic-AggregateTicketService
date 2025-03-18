@@ -1,6 +1,8 @@
 using Domic.Core.Domain.Entities;
 using Domic.Core.Persistence.Configs;
+using Domic.Domain.Category.Entities;
 using Domic.Domain.Ticket.Entities;
+using Domic.Domain.User.Entities;
 using Domic.Persistence.Configs.Q;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +21,10 @@ public partial class SQLContext : DbContext
 public partial class SQLContext
 {
     public DbSet<ConsumerEventQuery> ConsumerEvents { get; set; }
-    public DbSet<TicketQuery> Ticket { get; set; }
+    public DbSet<TicketQuery> Tickets { get; set; }
+    public DbSet<TicketCommentQuery> TicketComments { get; set; }
+    public DbSet<CategoryQuery> Categories { get; set; }
+    public DbSet<UserQuery> Users { get; set; }
 }
 
 /*Config*/
@@ -31,5 +36,7 @@ public partial class SQLContext
         
         builder.ApplyConfiguration(new ConsumerEventQueryConfig());
         builder.ApplyConfiguration(new TicketQueryConfig());
+        builder.ApplyConfiguration(new CategoryQueryConfig());
+        builder.ApplyConfiguration(new UserQueryConfig());
     }
 }

@@ -10,19 +10,19 @@ namespace Domic.Infrastructure.Implementations.Domain.Repositories.Q;
 public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
 {
     public Task<TicketQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
-        => context.Ticket.AsNoTracking().FirstOrDefaultAsync(t => t.Id == (string)id, cancellationToken);
+        => context.Tickets.AsNoTracking().FirstOrDefaultAsync(t => t.Id == (string)id, cancellationToken);
 
     public Task<TViewModel> FindByIdByProjectionConditionallyAsync<TViewModel>(object id, 
         Expression<Func<TicketQuery, TViewModel>> projection, Expression<Func<TicketQuery, bool>> condition,
         CancellationToken cancellationToken
-    ) => context.Ticket.AsNoTracking().Where(condition).Select(projection).FirstOrDefaultAsync(cancellationToken);
+    ) => context.Tickets.AsNoTracking().Where(condition).Select(projection).FirstOrDefaultAsync(cancellationToken);
 
     public Task<List<TicketQuery>> FindByCategoryIdAsync(string categoryId, CancellationToken cancellationToken
-    ) => context.Ticket.AsNoTracking().Where(ticket => ticket.CategoryId == categoryId).ToListAsync(cancellationToken);
+    ) => context.Tickets.AsNoTracking().Where(ticket => ticket.CategoryId == categoryId).ToListAsync(cancellationToken);
 
     public Task<List<TicketQuery>> FindByUserIdConditionallyAsync(string userId,
         Expression<Func<TicketQuery, bool>> condition, CancellationToken cancellationToken
-    ) => context.Ticket.AsNoTracking()
+    ) => context.Tickets.AsNoTracking()
                        .Where(condition)
                        .Where(ticket => ticket.CreatedBy == userId)
                        .ToListAsync(cancellationToken);
@@ -32,7 +32,7 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
         Expression<Func<TicketQuery, TViewModel>> projection, params Expression<Func<TicketQuery, bool>>[] conditions
     )
     {
-        var query = context.Ticket.AsNoTracking();
+        var query = context.Tickets.AsNoTracking();
 
         if (order == Order.Id)
             query = accending
@@ -58,7 +58,7 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
         params Expression<Func<TicketQuery, bool>>[] conditions
     )
     {
-        var query = context.Ticket.AsNoTracking();
+        var query = context.Tickets.AsNoTracking();
         
         foreach (var condition in conditions)
             query.Where(condition);
@@ -68,9 +68,9 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
         return result;
     }
 
-    public void Add(TicketQuery entity) => context.Ticket.Add(entity);
+    public void Add(TicketQuery entity) => context.Tickets.Add(entity);
 
-    public void Change(TicketQuery entity) => context.Ticket.Update(entity);
+    public void Change(TicketQuery entity) => context.Tickets.Update(entity);
 
-    public void ChangeRange(List<TicketQuery> entities) => context.Ticket.UpdateRange(entities);
+    public void ChangeRange(List<TicketQuery> entities) => context.Tickets.UpdateRange(entities);
 }

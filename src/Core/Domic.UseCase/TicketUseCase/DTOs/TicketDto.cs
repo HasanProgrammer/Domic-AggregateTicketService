@@ -11,6 +11,9 @@ public class TicketDto
     public required Priority Priority { get; init; }
     public required Status Status { get; init; }
     
+    //comment
+    public List<TicketCommentDto> Comments { get; init; }
+    
     //user
     public required string Username { get; init; }
     public required string UserImage { get; init; }

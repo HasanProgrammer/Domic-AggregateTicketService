@@ -14,5 +14,19 @@ public class TicketQueryConfig : BaseEntityQueryConfig<TicketQuery, string>
         //Configs
         
         builder.ToTable("Tickets");
+        
+        //relations
+        
+        builder.HasOne(ticket => ticket.Category)
+               .WithMany(category => category.Tickets)
+               .HasForeignKey(ticket => ticket.CategoryId);
+        
+        builder.HasOne(ticket => ticket.User)
+               .WithMany(user => user.Tickets)
+               .HasForeignKey(ticket => ticket.CreatedBy);
+        
+        builder.HasOne(ticket => ticket.User)
+               .WithMany(user => user.Tickets)
+               .HasForeignKey(ticket => ticket.UpdatedBy);
     }
 }

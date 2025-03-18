@@ -41,7 +41,14 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                 UserImage = ticket.User.UserImage,
                 FirstName = ticket.User.FirstName,
                 LastName = ticket.User.LastName,
-                CategoryName = ticket.Category.Title
+                CategoryName = ticket.Category.Title,
+                Comments = ticket.Comments.Select(comment => new TicketCommentDto {
+                    Id = comment.Id,
+                    Comment = comment.Comment,
+                    OwnerFirstName = comment.CreatedBy,
+                    OwnerLastName = comment.CreatedBy,
+                    OwnerImage = comment.CreatedBy
+                }).ToList()
             },
             conditionOne,
             conditionTwo
