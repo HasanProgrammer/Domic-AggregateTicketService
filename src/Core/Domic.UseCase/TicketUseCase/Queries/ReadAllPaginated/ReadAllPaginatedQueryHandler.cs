@@ -20,7 +20,8 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
         Expression<Func<TicketQuery, bool>> conditionTwo =
             ticket => ticket.Title.Contains(query.SearchText)          ||
                       ticket.Category.Title.Contains(query.SearchText) ||
-                      ( ticket.CreatedByUser.FirstName + " " + ticket.CreatedByUser.LastName ).Contains(query.SearchText);
+                      ( ticket.CreatedByUser.FirstName + " " + ticket.CreatedByUser.LastName ).Contains(query.SearchText) ||
+                      ( ticket.UpdatedByUser.FirstName + " " + ticket.UpdatedByUser.LastName ).Contains(query.SearchText);
 
         var countWithConditions =
             await ticketQueryRepository.CountRowsConditionallyAsync(cancellationToken, conditionOne, conditionTwo);
