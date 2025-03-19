@@ -21,12 +21,12 @@ public class TicketQueryConfig : BaseEntityQueryConfig<TicketQuery, string>
                .WithMany(category => category.Tickets)
                .HasForeignKey(ticket => ticket.CategoryId);
         
-        builder.HasOne(ticket => ticket.User)
-               .WithMany(user => user.Tickets)
+        builder.HasOne(ticket => ticket.CreatedByUser)
+               .WithMany(user => user.AuthorTickets)
                .HasForeignKey(ticket => ticket.CreatedBy);
         
-        builder.HasOne(ticket => ticket.User)
-               .WithMany(user => user.Tickets)
+        builder.HasOne(ticket => ticket.UpdatedByUser)
+               .WithMany(user => user.EditorTickets)
                .HasForeignKey(ticket => ticket.UpdatedBy);
     }
 }

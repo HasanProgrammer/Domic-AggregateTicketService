@@ -163,7 +163,7 @@ namespace Domic.Persistence.Migrations.Q
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedRole")
                         .IsRequired()
@@ -207,6 +207,8 @@ namespace Domic.Persistence.Migrations.Q
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("UpdatedBy");
 
@@ -292,13 +294,21 @@ namespace Domic.Persistence.Migrations.Q
                         .WithMany("Tickets")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Domic.Domain.User.Entities.UserQuery", "User")
-                        .WithMany("Tickets")
+                    b.HasOne("Domic.Domain.User.Entities.UserQuery", "CreatedByUser")
+                        .WithMany("AuthorTickets")
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domic.Domain.User.Entities.UserQuery", "UpdatedByUser")
+                        .WithMany("EditorTickets")
                         .HasForeignKey("UpdatedBy");
 
                     b.Navigation("Category");
 
-                    b.Navigation("User");
+                    b.Navigation("CreatedByUser");
+
+                    b.Navigation("UpdatedByUser");
                 });
 
             modelBuilder.Entity("Domic.Domain.Category.Entities.CategoryQuery", b =>
@@ -313,7 +323,9 @@ namespace Domic.Persistence.Migrations.Q
 
             modelBuilder.Entity("Domic.Domain.User.Entities.UserQuery", b =>
                 {
-                    b.Navigation("Tickets");
+                    b.Navigation("AuthorTickets");
+
+                    b.Navigation("EditorTickets");
                 });
 #pragma warning restore 612, 618
         }

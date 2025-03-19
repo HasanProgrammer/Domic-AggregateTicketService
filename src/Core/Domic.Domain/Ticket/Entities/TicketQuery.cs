@@ -21,7 +21,9 @@ public class TicketQuery : EntityQuery<string>
     
     //Relations
     
-    public UserQuery User { get; set; }
+    public UserQuery CreatedByUser { get; set; }
+    
+    public UserQuery UpdatedByUser { get; set; }
     
     public CategoryQuery Category { get; set; }
     

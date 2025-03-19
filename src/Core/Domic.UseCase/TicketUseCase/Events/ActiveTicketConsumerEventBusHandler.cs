@@ -12,6 +12,7 @@ public class ActiveTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
 {
     public Task BeforeHandleAsync(TicketActived @event, CancellationToken cancellationToken) => Task.CompletedTask;
 
+    [WithCleanCache(Keies = "Tickets")]
     [TransactionConfig(Type = TransactionType.Query)]
     public async Task HandleAsync(TicketActived @event, CancellationToken cancellationToken)
     {
@@ -25,7 +26,7 @@ public class ActiveTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
             targetTicket.UpdatedAt_EnglishDate = @event.UpdatedAt_EnglishDate;
             targetTicket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
             
-            ticketQueryRepository.Change(targetTicket);
+            await ticketQueryRepository.ChangeAsync(targetTicket, cancellationToken);
         }
     }
 

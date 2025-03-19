@@ -14,13 +14,13 @@ public class ReadOneQueryHandler(ITicketQueryRepository ticketQueryRepository) :
                 Description = ticket.Description,
                 Priority = ticket.Priority,
                 Status = ticket.Status,
-                Username = ticket.User.Username,
-                FirstName = ticket.User.FirstName,
-                LastName = ticket.User.LastName,
-                UserImage = ticket.User.UserImage,
+                Username = ticket.CreatedByUser.Username,
+                FirstName = ticket.CreatedByUser.FirstName,
+                LastName = ticket.CreatedByUser.LastName,
+                UserImage = ticket.CreatedByUser.UserImage,
                 CategoryName = ticket.Category.Title
             },
-            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.User.Id == query.UserId,
+            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedByUser.Id == query.UserId,
             cancellationToken
         );
 }

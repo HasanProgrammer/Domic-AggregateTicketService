@@ -20,7 +20,7 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
         Expression<Func<TicketQuery, bool>> conditionTwo =
             ticket => ticket.Title.Contains(query.SearchText)          ||
                       ticket.Category.Title.Contains(query.SearchText) ||
-                      ( ticket.User.FirstName + " " + ticket.User.LastName ).Contains(query.SearchText);
+                      ( ticket.CreatedByUser.FirstName + " " + ticket.CreatedByUser.LastName ).Contains(query.SearchText);
 
         var countWithConditions =
             await ticketQueryRepository.CountRowsConditionallyAsync(cancellationToken, conditionOne, conditionTwo);
@@ -37,10 +37,10 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                 Description = ticket.Description,
                 Priority = ticket.Priority,
                 Status = ticket.Status,
-                Username = ticket.User.Username,
-                UserImage = ticket.User.UserImage,
-                FirstName = ticket.User.FirstName,
-                LastName = ticket.User.LastName,
+                Username = ticket.CreatedByUser.Username,
+                UserImage = ticket.CreatedByUser.UserImage,
+                FirstName = ticket.CreatedByUser.FirstName,
+                LastName = ticket.CreatedByUser.LastName,
                 CategoryName = ticket.Category.Title,
                 Comments = ticket.Comments.Select(comment => new TicketCommentDto {
                     Id = comment.Id,

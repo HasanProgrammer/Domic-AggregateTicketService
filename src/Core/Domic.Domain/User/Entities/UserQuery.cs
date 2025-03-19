@@ -18,5 +18,6 @@ public class UserQuery : EntityQuery<string>
     
     //Relations
     
-    public ICollection<TicketQuery> Tickets { get; set; }
+    public ICollection<TicketQuery> AuthorTickets { get; set; }
+    public ICollection<TicketQuery> EditorTickets { get; set; }
 }

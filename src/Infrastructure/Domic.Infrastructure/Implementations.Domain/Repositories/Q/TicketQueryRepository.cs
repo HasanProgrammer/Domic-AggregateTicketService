@@ -68,9 +68,19 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
         return result;
     }
 
-    public void Add(TicketQuery entity) => context.Tickets.Add(entity);
+    public Task AddAsync(TicketQuery entity, CancellationToken cancellationToken)
+    {
+        context.Tickets.Add(entity);
 
-    public void Change(TicketQuery entity) => context.Tickets.Update(entity);
+        return Task.CompletedTask;
+    }
+
+    public Task ChangeAsync(TicketQuery entity, CancellationToken cancellationToken)
+    {
+        context.Tickets.Update(entity);
+
+        return Task.CompletedTask;
+    }
 
     public void ChangeRange(List<TicketQuery> entities) => context.Tickets.UpdateRange(entities);
 }
