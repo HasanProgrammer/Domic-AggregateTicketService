@@ -29,7 +29,7 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
         var tickets = await ticketQueryRepository.FindAllWithPaginateAndOrderingByProjectionConditionallyAsync(
             query.CountPerPage.Value,
             query.PageNumber.Value,
-            Order.Id,
+            Order.Date,
             accending: false,
             cancellationToken,
             ticket => new TicketDto {
