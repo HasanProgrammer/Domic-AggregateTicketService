@@ -20,7 +20,11 @@ public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
     public Task<TViewModel> FindByIdByProjectionConditionallyAsync<TViewModel>(object id, 
         Expression<Func<TicketQuery, TViewModel>> projection, Expression<Func<TicketQuery, bool>> condition,
         CancellationToken cancellationToken
-    ) => context.Tickets.AsNoTracking().Where(condition).Select(projection).FirstOrDefaultAsync(cancellationToken);
+    ) => context.Tickets.AsNoTracking()
+                        .Where(ticket => ticket.Id == id as string)
+                        .Where(condition)
+                        .Select(projection)
+                        .FirstOrDefaultAsync(cancellationToken);
 
     public Task<List<TicketQuery>> FindByCategoryIdAsync(string categoryId, CancellationToken cancellationToken
     ) => context.Tickets.AsNoTracking().Where(ticket => ticket.CategoryId == categoryId).ToListAsync(cancellationToken);
