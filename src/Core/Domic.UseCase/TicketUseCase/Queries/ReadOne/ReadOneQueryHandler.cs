@@ -17,9 +17,15 @@ public class ReadOneQueryHandler(ITicketQueryRepository ticketQueryRepository) :
                 Username = ticket.CreatedByUser.Username,
                 FirstName = ticket.CreatedByUser.FirstName,
                 LastName = ticket.CreatedByUser.LastName,
-                CategoryName = ticket.Category.Title
+                CategoryName = ticket.Category.Title,
+                Comments = ticket.Comments.Select(comment => new TicketCommentDto {
+                    Id = comment.Id,
+                    Comment = comment.Comment,
+                    OwnerFirstName = comment.CreatedBy,
+                    OwnerLastName = comment.CreatedBy
+                }).ToList()
             },
-            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedByUser.Id == query.UserId,
+            ticket => string.IsNullOrEmpty(query.UserId) || ticket.CreatedBy == query.UserId,
             cancellationToken
         );
 }

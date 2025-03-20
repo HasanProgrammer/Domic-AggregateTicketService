@@ -46,8 +46,7 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                     Id = comment.Id,
                     Comment = comment.Comment,
                     OwnerFirstName = comment.CreatedBy,
-                    OwnerLastName = comment.CreatedBy,
-                    OwnerImage = comment.CreatedBy
+                    OwnerLastName = comment.CreatedBy
                 }).ToList()
             },
             conditionOne,
