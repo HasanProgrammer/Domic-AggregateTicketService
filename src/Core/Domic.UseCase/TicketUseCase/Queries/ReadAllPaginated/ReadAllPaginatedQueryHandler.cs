@@ -15,7 +15,7 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
     public async Task<PaginatedCollection<TicketDto>> HandleAsync(ReadAllPaginatedQuery query, CancellationToken cancellationToken)
     {
         Expression<Func<TicketQuery, bool>> conditionOne =
-            ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedBy == query.UserId;
+            ticket => string.IsNullOrEmpty(query.UserId) || ticket.CreatedBy == query.UserId;
         
         Expression<Func<TicketQuery, bool>> conditionTwo =
             ticket => ticket.Title.Contains(query.SearchText)          ||
