@@ -39,7 +39,6 @@ public class ReadAllPaginatedQueryHandler(ITicketQueryRepository ticketQueryRepo
                 Priority = ticket.Priority,
                 Status = ticket.Status,
                 Username = ticket.CreatedByUser.Username,
-                UserImage = ticket.CreatedByUser.UserImage,
                 FirstName = ticket.CreatedByUser.FirstName,
                 LastName = ticket.CreatedByUser.LastName,
                 CategoryName = ticket.Category.Title,

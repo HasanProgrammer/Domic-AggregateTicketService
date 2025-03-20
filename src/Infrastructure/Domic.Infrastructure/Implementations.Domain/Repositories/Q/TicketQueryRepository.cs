@@ -9,6 +9,11 @@ namespace Domic.Infrastructure.Implementations.Domain.Repositories.Q;
 
 public class TicketQueryRepository(SQLContext context) : ITicketQueryRepository
 {
+    public Task<TicketQuery> FindByIdEagerLoadingAsync(object id, CancellationToken cancellationToken)
+        => context.Tickets.AsNoTracking()
+                          .Include(ticket => ticket.Comments)
+                          .FirstOrDefaultAsync(t => t.Id == id as string, cancellationToken);
+
     public Task<TicketQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
         => context.Tickets.AsNoTracking().FirstOrDefaultAsync(t => t.Id == (string)id, cancellationToken);
 

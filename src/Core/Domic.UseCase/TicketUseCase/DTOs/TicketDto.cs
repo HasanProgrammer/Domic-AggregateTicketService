@@ -16,7 +16,6 @@ public class TicketDto
     
     //user
     public required string Username { get; init; }
-    public required string UserImage { get; init; }
     public required string FirstName { get; init; }
     public required string LastName { get; init; }
     

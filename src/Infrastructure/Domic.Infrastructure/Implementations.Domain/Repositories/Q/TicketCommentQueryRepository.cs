@@ -23,4 +23,11 @@ public class TicketCommentQueryRepository(SQLContext context) : ITicketCommentQu
 
         return Task.CompletedTask;
     }
+
+    public Task ChangeRangeAsync(IEnumerable<TicketCommentQuery> entities, CancellationToken cancellationToken)
+    {
+        context.TicketComments.UpdateRange(entities);
+
+        return Task.CompletedTask;
+    }
 }

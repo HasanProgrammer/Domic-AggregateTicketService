@@ -18,20 +18,17 @@ public class UpdateTicketConsumerEventBusHandler(ITicketQueryRepository ticketQu
     {
         var targetTicket = await ticketQueryRepository.FindByIdAsync(@event.Id, cancellationToken);
         
-        if (targetTicket is not null)
-        {
-            targetTicket.CategoryId = @event.CategoryId;
-            targetTicket.Title = @event.Title;
-            targetTicket.Description = @event.Description;
-            targetTicket.Status = (Status)@event.Status;
-            targetTicket.Priority = (Priority)@event.Priority;
-            targetTicket.UpdatedBy = @event.UpdatedBy;
-            targetTicket.UpdatedRole = @event.UpdatedRole;
-            targetTicket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
-            targetTicket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
+        targetTicket.CategoryId = @event.CategoryId;
+        targetTicket.Title = @event.Title;
+        targetTicket.Description = @event.Description;
+        targetTicket.Status = (Status)@event.Status;
+        targetTicket.Priority = (Priority)@event.Priority;
+        targetTicket.UpdatedBy = @event.UpdatedBy;
+        targetTicket.UpdatedRole = @event.UpdatedRole;
+        targetTicket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
+        targetTicket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
             
-            await ticketQueryRepository.ChangeAsync(targetTicket, cancellationToken);
-        }
+        await ticketQueryRepository.ChangeAsync(targetTicket, cancellationToken);
     }
 
     public Task AfterHandleAsync(TicketUpdated @event, CancellationToken cancellationToken)

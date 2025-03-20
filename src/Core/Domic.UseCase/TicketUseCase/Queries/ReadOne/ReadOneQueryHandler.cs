@@ -17,7 +17,6 @@ public class ReadOneQueryHandler(ITicketQueryRepository ticketQueryRepository) :
                 Username = ticket.CreatedByUser.Username,
                 FirstName = ticket.CreatedByUser.FirstName,
                 LastName = ticket.CreatedByUser.LastName,
-                UserImage = ticket.CreatedByUser.UserImage,
                 CategoryName = ticket.Category.Title
             },
             ticket => !string.IsNullOrEmpty(query.UserId) && ticket.CreatedByUser.Id == query.UserId,

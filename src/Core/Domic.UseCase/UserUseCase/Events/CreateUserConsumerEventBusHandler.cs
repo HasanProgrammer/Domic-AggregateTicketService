@@ -1,40 +1,34 @@
 ﻿using Domic.Core.Common.ClassConsts;
-using Domic.Core.Domain.Enumerations;
 using Domic.Core.UseCase.Attributes;
 using Domic.Core.UseCase.Contracts.Interfaces;
 using Domic.Domain.Service.Events;
-using Domic.Domain.Ticket.Contracts.Interfaces;
+using Domic.Domain.User.Contracts.Interfaces;
+using Domic.Domain.User.Entities;
 
 namespace Domic.UseCase.UserUseCase.Events;
 
-public class CreateUserConsumerEventBusHandler(ITicketQueryRepository ticketQueryRepository) 
-    : IConsumerEventBusHandler<UserActived>
+public class CreateUserConsumerEventBusHandler(IUserQueryRepository userQueryRepository) 
+    : IConsumerEventBusHandler<UserCreated>
 {
-    public Task BeforeHandleAsync(UserActived @event, CancellationToken cancellationToken) => Task.CompletedTask;
+    public Task BeforeHandleAsync(UserCreated @event, CancellationToken cancellationToken) => Task.CompletedTask;
 
     [TransactionConfig(Type = TransactionType.Query)]
-    public async Task HandleAsync(UserActived @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(UserCreated @event, CancellationToken cancellationToken)
     {
-        var tickets =
-            await ticketQueryRepository.FindByUserIdConditionallyAsync(@event.Id,
-                ticket => ticket.IsActive == IsActive.InActive, cancellationToken
-            );
+        var newUser = new UserQuery {
+            Id = @event.Id,
+            Username = @event.Username,
+            FirstName = @event.FirstName,
+            LastName = @event.LastName,
+            CreatedBy = @event.CreatedBy,
+            CreatedRole = @event.CreatedRole,
+            CreatedAt_EnglishDate = @event.CreatedAt_EnglishDate,
+            CreatedAt_PersianDate = @event.CreatedAt_PersianDate,
+        };
 
-        if (tickets.Any())
-        {
-            foreach (var ticket in tickets)
-            {
-                ticket.IsActive = IsActive.Active;
-                ticket.UpdatedBy = @event.UpdatedBy;
-                ticket.UpdatedRole = @event.UpdatedRole;
-                ticket.UpdatedAt_EnglishDate = @event.UpdatedAt_EnglishDate;
-                ticket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
-            }
-            
-            ticketQueryRepository.ChangeRange(tickets);
-        }
+        await userQueryRepository.AddAsync(newUser, cancellationToken);
     }
 
-    public Task AfterHandleAsync(UserActived @event, CancellationToken cancellationToken)
+    public Task AfterHandleAsync(UserCreated @event, CancellationToken cancellationToken)
         => Task.CompletedTask;
 }
