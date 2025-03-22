@@ -6,10 +6,10 @@ namespace Domic.Domain.Category.Entities;
 public class CategoryQuery : EntityQuery<string>
 {
     //Fields
-    
+
     public string Title { get; set; }
-    
-    /*---------------------------------------------------------------*/
+
+/*---------------------------------------------------------------*/
     
     //relations
     
