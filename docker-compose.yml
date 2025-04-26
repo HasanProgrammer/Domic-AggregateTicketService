@@ -30,7 +30,7 @@ services:
       - I-RabbitMQ-Username=
       - I-RabbitMQ-Password=
       - E-RedisConnectionString=domic.redis:6379
-      - I-RedisConnectionString=
+      - I-RedisConnectionString=domic.aggregate.ticket.redis:6379
       - MongoConnectionString=
       - C-SqlServerConnectionString=Server=
       - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
@@ -43,6 +43,7 @@ services:
     
     depends_on:
       - domic.aggregate.ticket.query.sql.server
+      - domic.aggregate.ticket.redis
   
   domic.aggregate.ticket.query.sql.server:
     networks:
@@ -54,6 +55,15 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Domic123!@#
+
+  domic.aggregate.ticket.redis:
+    networks:
+      - domic
+    image: 'redis'
+    container_name: 'aggregateticket_redis'
+    command: 'redis-server'
+    ports:
+      - 7080:6379
 
 volumes:
   log:
