@@ -51,7 +51,7 @@ services:
     image: 'mcr.microsoft.com/mssql/server'
     container_name: "aggregate_ticket_query_sql_server"
     ports:
-      - 1400:1433
+      - 1404:1433
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=Domic123!@#
