@@ -1,4 +1,5 @@
 using Domic.Core.AggregateTicket.Grpc;
+using Domic.Domain.Commons.Enumerations;
 using Domic.UseCase.TicketUseCase.Queries.ReadAllPaginated;
 using Domic.UseCase.TicketUseCase.Queries.ReadOne;
 
@@ -26,6 +27,7 @@ public static class RpcRequestExtension
         => new() {
             CountPerPage = request.CountPerPage.Value, 
             PageNumber = request.PageNumber.Value,
+            Sort = (Sort)request.Sort.Value,
             UserId = request.UserId != null ? request.UserId.Value : "",
             SearchText = request.SearchText != null ? request.SearchText.Value : ""
         };
