@@ -15,7 +15,7 @@ public class ActiveUserConsumerEventBusHandler(IUserQueryRepository userQueryRep
     [TransactionConfig(Type = TransactionType.Query)]
     public async Task HandleAsync(UserActived @event, CancellationToken cancellationToken)
     {
-        var targetUser = await userQueryRepository.FindByIdAsync(@event.Id, cancellationToken);
+        var targetUser = await userQueryRepository.FindByIdEagerLoadingAsync(@event.Id, cancellationToken);
 
         targetUser.IsActive = IsActive.Active;
         targetUser.UpdatedBy = @event.UpdatedBy;
@@ -24,8 +24,24 @@ public class ActiveUserConsumerEventBusHandler(IUserQueryRepository userQueryRep
         targetUser.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
 
         await userQueryRepository.ChangeAsync(targetUser, cancellationToken);
-        
-        //todo : should be better active ticket & ticketComment
+
+        foreach (var ticket in targetUser.AuthorTickets)
+        {
+            ticket.IsActive = IsActive.Active;
+            ticket.UpdatedBy = @event.UpdatedBy;
+            ticket.UpdatedRole = @event.UpdatedRole;
+            ticket.UpdatedAt_EnglishDate = @event.UpdatedAt_EnglishDate;
+            ticket.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
+            
+            foreach (var comment in ticket.Comments)
+            {
+                comment.IsActive = IsActive.Active;
+                comment.UpdatedBy = @event.UpdatedBy;
+                comment.UpdatedRole = @event.UpdatedRole;
+                comment.UpdatedAt_EnglishDate = @event.UpdatedAt_EnglishDate;
+                comment.UpdatedAt_PersianDate = @event.UpdatedAt_PersianDate;
+            }
+        }
     }
 
     public Task AfterHandleAsync(UserActived @event, CancellationToken cancellationToken)
