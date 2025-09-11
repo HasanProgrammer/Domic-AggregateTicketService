@@ -17,7 +17,7 @@ public class UpdateCategoryConsumerEventBusHandler(ICategoryQueryRepository cate
     {
         var targetCategory = await categoryQueryRepository.FindByIdAsync(@event.Id, cancellationToken);
 
-        targetCategory.Title = @event.Title;
+        targetCategory.Title = @event.Name;
         targetCategory.UpdatedBy = @event.UpdatedBy;
         targetCategory.UpdatedRole = @event.UpdatedRole;
         targetCategory.UpdatedAt_EnglishDate = @event.UpdatedAt_EnglishDate;

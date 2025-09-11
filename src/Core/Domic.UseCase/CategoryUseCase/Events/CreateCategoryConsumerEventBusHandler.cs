@@ -18,7 +18,7 @@ public class CreateCategoryConsumerEventBusHandler(ICategoryQueryRepository cate
     {
         var newCategory = new CategoryQuery {
             Id = @event.Id,
-            Title = @event.Title,
+            Title = @event.Name,
             CreatedBy = @event.CreatedBy,
             CreatedRole = @event.CreatedRole,
             CreatedAt_EnglishDate = @event.CreatedAt_EnglishDate,

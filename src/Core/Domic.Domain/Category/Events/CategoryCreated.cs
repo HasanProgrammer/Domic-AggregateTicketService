@@ -6,5 +6,5 @@ namespace Domic.Domain.Category.Events;
 [EventConfig(Queue = "AggregateTicket_Category_Queue")]
 public class CategoryCreated : CreateDomainEvent<string>
 {
-    public string Title { get; set; }
+    public string Name { get; set; }
 }
