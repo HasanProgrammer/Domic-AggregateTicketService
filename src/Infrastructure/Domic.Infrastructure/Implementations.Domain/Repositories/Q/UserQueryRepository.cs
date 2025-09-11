@@ -13,8 +13,8 @@ public class UserQueryRepository(SQLContext context) : IUserQueryRepository
                         .ThenInclude(t => t.Comments)
                         .FirstOrDefaultAsync(x => x.Id == id as string, cancellationToken);
 
-    public Task<UserQuery> FindByIdAsync(string id, CancellationToken cancellationToken)
-        => context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public Task<UserQuery> FindByIdAsync(object id, CancellationToken cancellationToken)
+        => context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id as string, cancellationToken);
 
     public Task AddAsync(UserQuery entity, CancellationToken cancellationToken)
     {
