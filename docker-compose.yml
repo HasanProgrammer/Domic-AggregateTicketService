@@ -31,12 +31,10 @@ services:
       - I-RabbitMQ-Username=
       - I-RabbitMQ-Password=
       - E-RedisConnectionString=domic.redis:6379
-#     - I-RedisConnectionString=domic.aggregate.ticket.redis:6379
-      - I-RedisConnectionString=domic.redis:6379
+      - I-RedisConnectionString=domic.aggregate.ticket.redis:6379
       - MongoConnectionString=
       - C-SqlServerConnectionString=Server=
-#     - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
-      - Q-SqlServerConnectionString=Server=domic.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
+      - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
       - Host=domic.aggregate.ticket.api
       - Port=80
       - ASPNETCORE_ENVIRONMENT=Production
