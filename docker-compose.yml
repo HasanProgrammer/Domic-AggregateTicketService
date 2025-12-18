@@ -2,11 +2,11 @@ name: 'aggregate_ticket_service'
 
 services:
   
-  domic.aggregate.ticket.api:
+  domic.aggregate.ticket.service:
     networks:
       - domic
-    image: aggregate_ticket_service_api_image:1.0.0
-    container_name: "aggregate_ticket_service_api"
+    image: domic_aggregate_ticket_service_image:1.0.0
+    container_name: "domic_aggregate_ticket_service"
     build:
       context: .
       dockerfile: Dockerfile
