@@ -36,7 +36,7 @@ services:
       - C-SqlServerConnectionString=Server=
       - Q-SqlServerConnectionString=Server=domic.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;TrustServerCertificate=True;
 #     - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;TrustServerCertificate=True;
-      - Host=domic.aggregate.ticket.api
+      - Host=domic.aggregate.ticket.service
       - Port=443
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
