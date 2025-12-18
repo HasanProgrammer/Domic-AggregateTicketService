@@ -14,9 +14,8 @@ services:
     ports:
       - "6100-6110:443"
     volumes:
-      - log:/app/CoreLogs
+      - ~/services/Logs/Domic-AggregateTicketService/:/app/CoreLogs/
       - ~/services/Domic-AggregateTicketService/.https/:/https/
-#     - C:\https:/https/
     environment:
       - Elastic-Host=http://domic.elastic.search:9200
       - Elastic-Index=aggregateticket
@@ -35,10 +34,10 @@ services:
 #     - I-RedisConnectionString=domic.aggregate.ticket.redis:6379
       - MongoConnectionString=
       - C-SqlServerConnectionString=Server=
-      - Q-SqlServerConnectionString=Server=domic.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
-#     - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;
+      - Q-SqlServerConnectionString=Server=domic.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;TrustServerCertificate=True;
+#     - Q-SqlServerConnectionString=Server=domic.aggregate.ticket.query.sql.server,1433;Database=AggregateTicketService;User ID=sa;Password=Domic123!@#;Persist Security Info=True;MultipleActiveResultSets=True;TrustServerCertificate=True;
       - Host=domic.aggregate.ticket.api
-      - Port=80
+      - Port=443
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Domic123!@#
@@ -63,13 +62,10 @@ services:
 #   networks:
 #     - domic
 #   image: 'redis'
-#   container_name: 'aggregateticket_redis'
+#   container_name: 'aggregate_ticket_redis'
 #   command: 'redis-server'
 #   ports:
 #     - 7080:6379
-
-volumes:
-  log:
     
 networks:
   domic:
